@@ -68,8 +68,8 @@ function ConsoleContent() {
         <MemoryView memoryKv={memoryKv} />
       </div>
       <div className="content-logs" ref={eventsScrollRef}>
-        <Events />
         <Conversation />
+        <Events />
         <ConsoleActions />
       </div>
     </div>
