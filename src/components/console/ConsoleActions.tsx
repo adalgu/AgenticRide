@@ -18,14 +18,14 @@ export function ConsoleActions() {
     <div className="content-actions">
       <Toggle
         defaultValue={false}
-        labels={['manual', 'vad']}
+        labels={['manual', 'auto']}
         values={['none', 'server_vad']}
         onChange={handleTurnEndTypeChange}
       />
       <div className="spacer" />
       {isConnected && canPushToTalk && (
         <Button
-          label={isRecording ? 'release to send' : 'push to talk'}
+          label={isRecording ? 'release to send' : 'push'}
           buttonStyle={isRecording ? 'alert' : 'regular'}
           disabled={!isConnected || !canPushToTalk}
           onMouseDown={startRecording}

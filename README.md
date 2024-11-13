@@ -1,372 +1,125 @@
-# OpenAI Realtime Console
+# AI 동요 생성기 (AI Children's Song Generator)
 
-The OpenAI Realtime Console is intended as an inspector and interactive API reference
-for the OpenAI Realtime API. It comes packaged with two utility libraries,
-[openai/openai-realtime-api-beta](https://github.com/openai/openai-realtime-api-beta)
-that acts as a **Reference Client** (for browser and Node.js) and
-[`/src/lib/wavtools`](./src/lib/wavtools) which allows for simple audio
-management in the browser.
+이 프로젝트는 OpenAI의 Realtime API를 활용하여 어린이를 위한 맞춤형 동요를 생성하는 대화형 웹 애플리케이션입니다.
 
-<img src="/readme/realtime-console-demo.png" width="800" />
+## 주요 기능
 
-# Starting the console
+### 1. 대화형 음악 생성
 
-This is a React project created using `create-react-app` that is bundled via Webpack.
-Install it by extracting the contents of this package and using;
+- 실시간 음성 대화를 통한 자연스러운 상호작용
+- 사용자의 아이디어와 이야기를 바탕으로 맞춤형 동요 생성
+- 음성 활동 감지(VAD) 또는 수동 모드 지원
 
-```shell
-$ npm i
+### 2. 가사 생성 (Lyrics Generation)
+
+- 사용자와의 대화를 통해 발견한 소재로 동요 가사 생성
+- 어린이의 눈높이에 맞는 한국어 가사 작성
+- `generate_lyrics` 도구를 통한 맞춤형 가사 생성
+
+### 3. 음악 생성 (Music Generation)
+
+- AI 기반의 동요 멜로디 및 반주 생성
+- 다양한 장르와 스타일 지원
+- 가사와 멜로디의 자연스러운 조화
+- 선택적 반주 전용 버전 생성 가능
+
+### 4. 시스템 도구
+
+- 메모리 기능: 대화 내용과 생성된 음악 정보 저장
+- 날씨 정보 통합: 날씨 관련 동요 생성 시 실제 날씨 데이터 활용
+
+## 기술 스택
+
+- **Frontend**: React, TypeScript, SCSS
+- **API Integration**: OpenAI Realtime API
+- **Audio Processing**: Web Audio API
+- **실시간 통신**: WebSocket
+- **상태 관리**: React Context API
+- **오디오 시각화**: Canvas API
+
+## 프로젝트 구조
+
+```
+src/
+├── components/         # React 컴포넌트
+│   ├── console/       # 콘솔 관련 컴포넌트
+│   ├── main/          # 메인 뷰 컴포넌트
+│   └── memory/        # 메모리 뷰 컴포넌트
+├── hooks/             # Custom React Hooks
+│   └── realtime/      # 실시간 통신 관련 훅
+├── tools/             # AI 도구 정의
+│   ├── generateLyrics.ts
+│   ├── generateMusic.ts
+│   └── musicCallback.ts
+├── types/             # TypeScript 타입 정의
+└── utils/             # 유틸리티 함수
 ```
 
-Start your server with:
+## 주요 도구 설명
 
-```shell
-$ npm start
+### 1. generate_lyrics
+
+- **기능**: 동요 가사 생성
+- **입력**: 대화를 통해 발견한 소재와 주제
+- **출력**: 한국어 동요 가사와 제목
+
+### 2. generate_music
+
+- **기능**: 음악 생성
+- **입력**:
+  - prompt: 상세한 음악 설명과 가사
+  - tags: 음악 장르 및 스타일
+  - title: 곡 제목
+  - make_instrumental: 반주 전용 버전 생성 여부
+- **출력**: 생성된 음악 파일과 메타데이터
+
+## 설치 및 실행
+
+1. 프로젝트 클론
+
+```bash
+git clone [repository-url]
+cd openai-realtime-console
 ```
 
-It should be available via `localhost:3000`.
+2. 의존성 설치
 
-# Table of contents
-
-1. [Using the console](#using-the-console)
-   1. [Using a relay server](#using-a-relay-server)
-1. [Realtime API reference client](#realtime-api-reference-client)
-   1. [Sending streaming audio](#sending-streaming-audio)
-   1. [Adding and using tools](#adding-and-using-tools)
-   1. [Interrupting the model](#interrupting-the-model)
-   1. [Reference client events](#reference-client-events)
-1. [Wavtools](#wavtools)
-   1. [WavRecorder quickstart](#wavrecorder-quickstart)
-   1. [WavStreamPlayer quickstart](#wavstreamplayer-quickstart)
-1. [Acknowledgements and contact](#acknowledgements-and-contact)
-
-# Using the console
-
-The console requires an OpenAI API key (**user key** or **project key**) that has access to the
-Realtime API. You'll be prompted on startup to enter it. It will be saved via `localStorage` and can be
-changed at any time from the UI.
-
-To start a session you'll need to **connect**. This will require microphone access.
-You can then choose between **manual** (Push-to-talk) and **vad** (Voice Activity Detection)
-conversation modes, and switch between them at any time.
-
-There are two functions enabled;
-
-- `get_weather`: Ask for the weather anywhere and the model will do its best to pinpoint the
-  location, show it on a map, and get the weather for that location. Note that it doesn't
-  have location access, and coordinates are "guessed" from the model's training data so
-  accuracy might not be perfect.
-- `set_memory`: You can ask the model to remember information for you, and it will store it in
-  a JSON blob on the left.
-
-You can freely interrupt the model at any time in push-to-talk or VAD mode.
-
-## Using a relay server
-
-If you would like to build a more robust implementation and play around with the reference
-client using your own server, we have included a Node.js [Relay Server](/relay-server/index.js).
-
-```shell
-$ npm run relay
+```bash
+npm install
 ```
 
-It will start automatically on `localhost:8081`.
+3. 환경 변수 설정
 
-**You will need to create a `.env` file** with the following configuration:
-
-```conf
-OPENAI_API_KEY=YOUR_API_KEY
+```bash
+# .env 파일 생성
+OPENAI_API_KEY=your_api_key
 REACT_APP_LOCAL_RELAY_SERVER_URL=http://localhost:8081
 ```
 
-You will need to restart both your React app and relay server for the `.env.` changes
-to take effect. The local server URL is loaded via [`ConsolePage.tsx`](/src/pages/ConsolePage.tsx).
-To stop using the relay server at any time, simply delete the environment
-variable or set it to empty string.
+4. 개발 서버 실행
 
-```javascript
-/**
- * Running a local relay server will allow you to hide your API key
- * and run custom logic on the server
- *
- * Set the local relay server address to:
- * REACT_APP_LOCAL_RELAY_SERVER_URL=http://localhost:8081
- *
- * This will also require you to set OPENAI_API_KEY= in a `.env` file
- * You can run it with `npm run relay`, in parallel with `npm start`
- */
-const LOCAL_RELAY_SERVER_URL: string =
-  process.env.REACT_APP_LOCAL_RELAY_SERVER_URL || '';
+```bash
+npm start
 ```
 
-This server is **only a simple message relay**, but it can be extended to:
+5. 릴레이 서버 실행 (선택사항)
 
-- Hide API credentials if you would like to ship an app to play with online
-- Handle certain calls you would like to keep secret (e.g. `instructions`) on
-  the server directly
-- Restrict what types of events the client can receive and send
-
-You will have to implement these features yourself.
-
-# Realtime API reference client
-
-The latest reference client and documentation are available on GitHub at
-[openai/openai-realtime-api-beta](https://github.com/openai/openai-realtime-api-beta).
-
-You can use this client yourself in any React (front-end) or Node.js project.
-For full documentation, refer to the GitHub repository, but you can use the
-guide here as a primer to get started.
-
-```javascript
-import { RealtimeClient } from '/src/lib/realtime-api-beta/index.js';
-
-const client = new RealtimeClient({ apiKey: process.env.OPENAI_API_KEY });
-
-// Can set parameters ahead of connecting
-client.updateSession({ instructions: 'You are a great, upbeat friend.' });
-client.updateSession({ voice: 'alloy' });
-client.updateSession({ turn_detection: 'server_vad' });
-client.updateSession({ input_audio_transcription: { model: 'whisper-1' } });
-
-// Set up event handling
-client.on('conversation.updated', ({ item, delta }) => {
-  const items = client.conversation.getItems(); // can use this to render all items
-  /* includes all changes to conversations, delta may be populated */
-});
-
-// Connect to Realtime API
-await client.connect();
-
-// Send an item and triggers a generation
-client.sendUserMessageContent([{ type: 'text', text: `How are you?` }]);
+```bash
+npm run relay
 ```
 
-## Sending streaming audio
+## 사용 방법
 
-To send streaming audio, use the `.appendInputAudio()` method. If you're in `turn_detection: 'disabled'` mode,
-then you need to use `.generate()` to tell the model to respond.
+1. 웹 브라우저에서 애플리케이션 접속
+2. OpenAI API 키 입력
+3. 'Connect' 버튼을 클릭하여 시작
+4. 음성 또는 텍스트로 대화 시작
+5. AI와 대화하며 동요 생성 과정 진행
+6. 생성된 가사와 음악 확인 및 재생
 
-```javascript
-// Send user audio, must be Int16Array or ArrayBuffer
-// Default audio format is pcm16 with sample rate of 24,000 Hz
-// This populates 1s of noise in 0.1s chunks
-for (let i = 0; i < 10; i++) {
-  const data = new Int16Array(2400);
-  for (let n = 0; n < 2400; n++) {
-    const value = Math.floor((Math.random() * 2 - 1) * 0x8000);
-    data[n] = value;
-  }
-  client.appendInputAudio(data);
-}
-// Pending audio is committed and model is asked to generate
-client.createResponse();
-```
+## 주의사항
 
-## Adding and using tools
-
-Working with tools is easy. Just call `.addTool()` and set a callback as the second parameter.
-The callback will be executed with the parameters for the tool, and the result will be automatically
-sent back to the model.
-
-```javascript
-// We can add tools as well, with callbacks specified
-client.addTool(
-  {
-    name: 'get_weather',
-    description:
-      'Retrieves the weather for a given lat, lng coordinate pair. Specify a label for the location.',
-    parameters: {
-      type: 'object',
-      properties: {
-        lat: {
-          type: 'number',
-          description: 'Latitude',
-        },
-        lng: {
-          type: 'number',
-          description: 'Longitude',
-        },
-        location: {
-          type: 'string',
-          description: 'Name of the location',
-        },
-      },
-      required: ['lat', 'lng', 'location'],
-    },
-  },
-  async ({ lat, lng, location }) => {
-    const result = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=temperature_2m,wind_speed_10m`
-    );
-    const json = await result.json();
-    return json;
-  }
-);
-```
-
-## Interrupting the model
-
-You may want to manually interrupt the model, especially in `turn_detection: 'disabled'` mode.
-To do this, we can use:
-
-```javascript
-// id is the id of the item currently being generated
-// sampleCount is the number of audio samples that have been heard by the listener
-client.cancelResponse(id, sampleCount);
-```
-
-This method will cause the model to immediately cease generation, but also truncate the
-item being played by removing all audio after `sampleCount` and clearing the text
-response. By using this method you can interrupt the model and prevent it from "remembering"
-anything it has generated that is ahead of where the user's state is.
-
-## Reference client events
-
-There are five main client events for application control flow in `RealtimeClient`.
-Note that this is only an overview of using the client, the full Realtime API
-event specification is considerably larger, if you need more control check out the GitHub repository:
-[openai/openai-realtime-api-beta](https://github.com/openai/openai-realtime-api-beta).
-
-```javascript
-// errors like connection failures
-client.on('error', (event) => {
-  // do thing
-});
-
-// in VAD mode, the user starts speaking
-// we can use this to stop audio playback of a previous response if necessary
-client.on('conversation.interrupted', () => {
-  /* do something */
-});
-
-// includes all changes to conversations
-// delta may be populated
-client.on('conversation.updated', ({ item, delta }) => {
-  // get all items, e.g. if you need to update a chat window
-  const items = client.conversation.getItems();
-  switch (item.type) {
-    case 'message':
-      // system, user, or assistant message (item.role)
-      break;
-    case 'function_call':
-      // always a function call from the model
-      break;
-    case 'function_call_output':
-      // always a response from the user / application
-      break;
-  }
-  if (delta) {
-    // Only one of the following will be populated for any given event
-    // delta.audio = Int16Array, audio added
-    // delta.transcript = string, transcript added
-    // delta.arguments = string, function arguments added
-  }
-});
-
-// only triggered after item added to conversation
-client.on('conversation.item.appended', ({ item }) => {
-  /* item status can be 'in_progress' or 'completed' */
-});
-
-// only triggered after item completed in conversation
-// will always be triggered after conversation.item.appended
-client.on('conversation.item.completed', ({ item }) => {
-  /* item status will always be 'completed' */
-});
-```
-
-# Wavtools
-
-Wavtools contains easy management of PCM16 audio streams in the browser, both
-recording and playing.
-
-## WavRecorder Quickstart
-
-```javascript
-import { WavRecorder } from '/src/lib/wavtools/index.js';
-
-const wavRecorder = new WavRecorder({ sampleRate: 24000 });
-wavRecorder.getStatus(); // "ended"
-
-// request permissions, connect microphone
-await wavRecorder.begin();
-wavRecorder.getStatus(); // "paused"
-
-// Start recording
-// This callback will be triggered in chunks of 8192 samples by default
-// { mono, raw } are Int16Array (PCM16) mono & full channel data
-await wavRecorder.record((data) => {
-  const { mono, raw } = data;
-});
-wavRecorder.getStatus(); // "recording"
-
-// Stop recording
-await wavRecorder.pause();
-wavRecorder.getStatus(); // "paused"
-
-// outputs "audio/wav" audio file
-const audio = await wavRecorder.save();
-
-// clears current audio buffer and starts recording
-await wavRecorder.clear();
-await wavRecorder.record();
-
-// get data for visualization
-const frequencyData = wavRecorder.getFrequencies();
-
-// Stop recording, disconnects microphone, output file
-await wavRecorder.pause();
-const finalAudio = await wavRecorder.end();
-
-// Listen for device change; e.g. if somebody disconnects a microphone
-// deviceList is array of MediaDeviceInfo[] + `default` property
-wavRecorder.listenForDeviceChange((deviceList) => {});
-```
-
-## WavStreamPlayer Quickstart
-
-```javascript
-import { WavStreamPlayer } from '/src/lib/wavtools/index.js';
-
-const wavStreamPlayer = new WavStreamPlayer({ sampleRate: 24000 });
-
-// Connect to audio output
-await wavStreamPlayer.connect();
-
-// Create 1s of empty PCM16 audio
-const audio = new Int16Array(24000);
-// Queue 3s of audio, will start playing immediately
-wavStreamPlayer.add16BitPCM(audio, 'my-track');
-wavStreamPlayer.add16BitPCM(audio, 'my-track');
-wavStreamPlayer.add16BitPCM(audio, 'my-track');
-
-// get data for visualization
-const frequencyData = wavStreamPlayer.getFrequencies();
-
-// Interrupt the audio (halt playback) at any time
-// To restart, need to call .add16BitPCM() again
-const trackOffset = await wavStreamPlayer.interrupt();
-trackOffset.trackId; // "my-track"
-trackOffset.offset; // sample number
-trackOffset.currentTime; // time in track
-```
-
-# Acknowledgements and contact
-
-Thanks for checking out the Realtime Console. We hope you have fun with the Realtime API.
-Special thanks to the whole Realtime API team for making this possible. Please feel free
-to reach out, ask questions, or give feedback by creating an issue on the repository.
-You can also reach out and let us know what you think directly!
-
-- OpenAI Developers / [@OpenAIDevs](https://x.com/OpenAIDevs)
-- Jordan Sitkin / API / [@dustmason](https://x.com/dustmason)
-- Mark Hudnall / API / [@landakram](https://x.com/landakram)
-- Peter Bakkum / API / [@pbbakkum](https://x.com/pbbakkum)
-- Atty Eleti / API / [@athyuttamre](https://x.com/athyuttamre)
-- Jason Clark / API / [@onebitToo](https://x.com/onebitToo)
-- Karolis Kosas / Design / [@karoliskosas](https://x.com/karoliskosas)
-- Keith Horwood / API + DX / [@keithwhor](https://x.com/keithwhor)
-- Romain Huet / DX / [@romainhuet](https://x.com/romainhuet)
-- Katia Gil Guzman / DX / [@kagigz](https://x.com/kagigz)
-- Ilan Bigio / DX / [@ilanbigio](https://x.com/ilanbigio)
-- Kevin Whinnery / DX / [@kevinwhinnery](https://x.com/kevinwhinnery)
+- OpenAI API 키가 필요합니다
+- 마이크 접근 권한이 필요합니다
+- 안정적인 인터넷 연결이 필요합니다
+- 최신 버전의 웹 브라우저를 사용하세요
