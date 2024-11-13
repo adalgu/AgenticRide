@@ -8,7 +8,7 @@ import { Header } from '../components/header/Header';
 import { Events } from '../components/console/Events';
 import { Conversation } from '../components/console/Conversation';
 import { ConsoleActions } from '../components/console/ConsoleActions';
-import { WeatherMap } from '../components/weather/WeatherMap';
+import { MainView } from '../components/main/MainView';
 import { MemoryView } from '../components/memory/MemoryView';
 import { useConsole } from '../contexts/ConsoleContext';
 import { LOCAL_RELAY_SERVER_URL } from '../constants/config';
@@ -63,14 +63,14 @@ function ConsoleContent() {
 
   return (
     <div className="content-main">
+      <div className="content-right">
+        <MainView />
+        <MemoryView memoryKv={memoryKv} />
+      </div>
       <div className="content-logs" ref={eventsScrollRef}>
         <Events />
         <Conversation />
         <ConsoleActions />
-      </div>
-      <div className="content-right">
-        <WeatherMap marker={marker} coords={coords} />
-        <MemoryView memoryKv={memoryKv} />
       </div>
     </div>
   );

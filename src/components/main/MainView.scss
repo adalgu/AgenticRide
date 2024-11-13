@@ -1,0 +1,11 @@
+.main-view {
+  background-color: #ececf1;
+  height: calc(100% - 200px);
+  position: relative;
+  border-radius: 16px;
+
+  .content-block-body {
+    padding: 16px;
+    margin-top: 56px;
+  }
+}
