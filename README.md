@@ -1,6 +1,6 @@
 # AI 동요 생성기 (AI Children's Song Generator)
 
-이 프로젝트는 OpenAI의 Realtime API를 활용하여 어린이를 위한 맞춤형 동요를 생성하는 대화형 웹 애플리케이션입니다.
+이 프로젝트는 OpenAI의 Realtime API와 Suno AI를 활용하여 어린이를 위한 맞춤형 동요를 생성하는 대화형 웹 애플리케이션입니다.
 
 ## 주요 기능
 
@@ -18,6 +18,7 @@
 
 ### 3. 음악 생성 (Music Generation)
 
+- Suno AI의 비공식 API를 활용한 고품질 음악 생성
 - AI 기반의 동요 멜로디 및 반주 생성
 - 다양한 장르와 스타일 지원
 - 가사와 멜로디의 자연스러운 조화
@@ -31,7 +32,9 @@
 ## 기술 스택
 
 - **Frontend**: React, TypeScript, SCSS
-- **API Integration**: OpenAI Realtime API
+- **API Integration**:
+  - OpenAI Realtime API
+  - Suno AI Unofficial API
 - **Audio Processing**: Web Audio API
 - **실시간 통신**: WebSocket
 - **상태 관리**: React Context API
@@ -44,7 +47,9 @@ src/
 ├── components/         # React 컴포넌트
 │   ├── console/       # 콘솔 관련 컴포넌트
 │   ├── main/          # 메인 뷰 컴포넌트
-│   └── memory/        # 메모리 뷰 컴포넌트
+│   ├── card/          # 음악 카드 컴포넌트
+│   ├── music/         # 음악 라이브러리 컴포넌트
+│   └── conversation/  # 대화 관련 컴포넌트
 ├── hooks/             # Custom React Hooks
 │   └── realtime/      # 실시간 통신 관련 훅
 ├── tools/             # AI 도구 정의
@@ -63,7 +68,7 @@ src/
 - **입력**: 대화를 통해 발견한 소재와 주제
 - **출력**: 한국어 동요 가사와 제목
 
-### 2. generate_music
+### 2. generate_music (Suno AI Integration)
 
 - **기능**: 음악 생성
 - **입력**:
@@ -72,6 +77,7 @@ src/
   - title: 곡 제목
   - make_instrumental: 반주 전용 버전 생성 여부
 - **출력**: 생성된 음악 파일과 메타데이터
+- **특징**: Suno AI의 비공식 API를 활용하여 고품질 음악 생성
 
 ## 설치 및 실행
 
@@ -94,6 +100,7 @@ npm install
 # .env 파일 생성
 OPENAI_API_KEY=your_api_key
 REACT_APP_LOCAL_RELAY_SERVER_URL=http://localhost:8081
+SUNO_COOKIE=your_suno_cookie  # Suno AI 쿠키 설정
 ```
 
 4. 개발 서버 실행
@@ -120,6 +127,7 @@ npm run relay
 ## 주의사항
 
 - OpenAI API 키가 필요합니다
+- Suno AI 계정의 쿠키가 필요합니다
 - 마이크 접근 권한이 필요합니다
 - 안정적인 인터넷 연결이 필요합니다
 - 최신 버전의 웹 브라우저를 사용하세요
