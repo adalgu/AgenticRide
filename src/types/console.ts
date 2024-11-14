@@ -1,5 +1,16 @@
 import { ItemType } from '@openai/realtime-api-beta/dist/lib/client.js';
 
+export interface Song {
+  id: string;
+  title: string;
+  image_url: string;
+  audio_url: string;
+  video_url: string;
+  duration: number;
+  created_at: string;
+  lyric: string;
+}
+
 export interface Coordinates {
   lat: number;
   lng: number;
@@ -22,6 +33,10 @@ export interface RealtimeEvent {
 }
 
 export interface MemoryKV {
+  [key: string]: any;
+}
+
+export interface CanvasKV {
   [key: string]: any;
 }
 

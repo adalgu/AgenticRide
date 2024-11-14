@@ -2,7 +2,12 @@ import { createContext, useContext, ReactNode, useState, useRef } from 'react';
 import { RealtimeClient } from '@openai/realtime-api-beta';
 import { ItemType } from '@openai/realtime-api-beta/dist/lib/client.js';
 import { WavRecorder, WavStreamPlayer } from '../lib/wavtools/index.js';
-import { RealtimeEvent, Coordinates, MemoryKV } from '../types/console';
+import {
+  RealtimeEvent,
+  Coordinates,
+  MemoryKV,
+  CanvasKV,
+} from '../types/console';
 import { SAMPLE_RATE } from '../constants/config';
 
 interface ConsoleContextType {
@@ -24,6 +29,8 @@ interface ConsoleContextType {
   setIsRecording: (recording: boolean) => void;
   memoryKv: MemoryKV;
   setMemoryKv: (fn: (kv: MemoryKV) => MemoryKV) => void;
+  canvasKv: CanvasKV;
+  setCanvasKv: (fn: (kv: CanvasKV) => CanvasKV) => void;
   coords: Coordinates;
   setCoords: (coords: Coordinates) => void;
   marker: Coordinates | null;
@@ -60,6 +67,7 @@ export function ConsoleProvider({
   const [canPushToTalk, setCanPushToTalk] = useState(true);
   const [isRecording, setIsRecording] = useState(false);
   const [memoryKv, setMemoryKv] = useState<MemoryKV>({});
+  const [canvasKv, setCanvasKv] = useState<CanvasKV>({});
   const [coords, setCoords] = useState<Coordinates>({ lat: 0, lng: 0 });
   const [marker, setMarker] = useState<Coordinates | null>(null);
 
@@ -100,6 +108,8 @@ export function ConsoleProvider({
         setIsRecording,
         memoryKv,
         setMemoryKv,
+        canvasKv,
+        setCanvasKv,
         coords,
         setCoords,
         marker,

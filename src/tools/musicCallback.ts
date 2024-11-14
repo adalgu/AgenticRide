@@ -15,7 +15,6 @@ interface MusicInfo {
   created_at: string;
   model_name: string;
   status: string;
-  gpt_description_prompt: string;
   prompt: string;
   type: string;
   tags: string;
@@ -25,6 +24,10 @@ export interface MusicCallbackResponse {
   data?: MusicInfo;
   error?: string;
   status: 'pending' | 'complete' | 'error';
+  // Add flags for available URLs
+  hasImage?: boolean;
+  hasAudio?: boolean;
+  hasVideo?: boolean;
 }
 
 export const musicCallbackTool: ToolDefinition = {
@@ -52,6 +55,7 @@ export const musicCallbackTool: ToolDefinition = {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            accept: 'application/json',
           },
         }
       );
@@ -63,15 +67,31 @@ export const musicCallbackTool: ToolDefinition = {
       }
 
       // API 응답에서 해당 music_id의 정보 추출
-      const musicInfo = result[0][0] as MusicInfo;
+      const musicInfo = result[0] as MusicInfo;
 
       if (!musicInfo) {
         throw new Error('Music info not found');
       }
 
+      // status가 'streaming'인 경우도 'pending'으로 처리
+      const status =
+        musicInfo.status === 'complete'
+          ? 'complete'
+          : musicInfo.status === 'error'
+          ? 'error'
+          : 'pending';
+
+      // Check for available URLs regardless of status
+      const hasImage = !!musicInfo.image_url;
+      const hasAudio = !!musicInfo.audio_url;
+      const hasVideo = !!musicInfo.video_url;
+
       return {
         data: musicInfo,
-        status: musicInfo.status === 'complete' ? 'complete' : 'pending',
+        status,
+        hasImage,
+        hasAudio,
+        hasVideo,
       };
     } catch (error) {
       console.error('Music callback processing failed:', error);
@@ -79,6 +99,9 @@ export const musicCallbackTool: ToolDefinition = {
         error:
           error instanceof Error ? error.message : 'Unknown error occurred',
         status: 'error',
+        hasImage: false,
+        hasAudio: false,
+        hasVideo: false,
       };
     }
   },

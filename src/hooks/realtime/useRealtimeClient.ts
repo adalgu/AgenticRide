@@ -10,12 +10,14 @@ export const useRealtimeClient = ({
   setRealtimeEvents,
   setItems,
   setMemoryKv,
+  setCanvasKv,
   setMarker,
   setCoords,
 }: RealtimeClientProps) => {
   const { initializeTools } = useRealtimeTools({
     client,
     setMemoryKv,
+    setCanvasKv,
     setMarker,
     setCoords,
   });

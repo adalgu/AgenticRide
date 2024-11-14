@@ -1,7 +1,8 @@
 import React from 'react';
-import { Edit } from 'react-feather';
+import { Edit, Book } from 'react-feather';
 import { Button } from '../button/Button';
 import { LOCAL_RELAY_SERVER_URL } from '../../constants/config';
+import './Header.scss';
 
 interface HeaderProps {
   apiKey: string;
@@ -10,12 +11,13 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ apiKey, onResetApiKey }) => {
   return (
-    <div className="content-top">
-      <div className="content-title">
-        <img src="/openai-logomark.svg" alt="OpenAI Logo" />
-        <span>realtime console</span>
+    <div className="header">
+      <div className="header-title">
+        <Book size={28} className="header-icon" />
+        <span className="app-name">Agentic Story Teller</span>
       </div>
-      <div className="content-api-key">
+      {/* API Key display - temporarily hidden
+      <div className="header-api-key">
         {!LOCAL_RELAY_SERVER_URL && (
           <Button
             icon={Edit}
@@ -26,6 +28,7 @@ export const Header: React.FC<HeaderProps> = ({ apiKey, onResetApiKey }) => {
           />
         )}
       </div>
+      */}
     </div>
   );
 };

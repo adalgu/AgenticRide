@@ -9,7 +9,7 @@ import { Events } from '../components/console/Events';
 import { Conversation } from '../components/console/Conversation';
 import { ConsoleActions } from '../components/console/ConsoleActions';
 import { MainView } from '../components/main/MainView';
-import { MemoryView } from '../components/memory/MemoryView';
+import { MusicLibrary } from '../components/music/MusicLibrary';
 import { useConsole } from '../contexts/ConsoleContext';
 import { LOCAL_RELAY_SERVER_URL } from '../constants/config';
 
@@ -27,9 +27,11 @@ function ConsoleContent() {
     marker,
     coords,
     memoryKv,
+    canvasKv,
     setRealtimeEvents,
     setItems,
     setMemoryKv,
+    setCanvasKv,
     setMarker,
     setCoords,
   } = useConsole();
@@ -50,6 +52,7 @@ function ConsoleContent() {
     setRealtimeEvents,
     setItems,
     setMemoryKv,
+    setCanvasKv,
     setMarker,
     setCoords,
   });
@@ -65,7 +68,7 @@ function ConsoleContent() {
     <div className="content-main">
       <div className="content-right">
         <MainView />
-        <MemoryView memoryKv={memoryKv} />
+        <MusicLibrary memoryKv={memoryKv} />
       </div>
       <div className="content-logs" ref={eventsScrollRef}>
         <Conversation />
