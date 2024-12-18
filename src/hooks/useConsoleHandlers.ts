@@ -47,7 +47,7 @@ export function useConsoleHandlers() {
     client.sendUserMessageContent([
       {
         type: `input_text`,
-        text: `안녕, 친구야! 나 왔어.`,
+        text: `자 오늘도 안전하게 아이들을 태워보자.`,
       },
     ]);
 

@@ -8,6 +8,7 @@ import { musicGenerationTool } from '../../tools/generateMusic';
 import { musicCallbackTool } from '../../tools/musicCallback';
 import { fetchSongsTool } from '../../tools/songs';
 import { setMusicCanvasTool } from '../../tools/musicCanvas';
+import { sendKakaoTalkTool } from '../../tools/katalk';
 import { ToolDefinition } from '../../types/tools';
 
 export const useRealtimeTools = ({
@@ -48,6 +49,9 @@ export const useRealtimeTools = ({
     registerTool(lyricsGenerationTool);
     registerTool(musicGenerationTool);
     registerTool(musicCallbackTool);
+
+    // KakaoTalk messaging tool
+    registerTool(sendKakaoTalkTool);
   }, [client, setMemoryKv, setCanvasKv, setMarker, setCoords, registerTool]);
 
   return {
