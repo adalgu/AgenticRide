@@ -75,7 +75,11 @@ Available Tools:
        }>
      } (if success is true)
    - error: string (if success is false)
-   Description: 지정된 학원의 학생들을 픽업하는 최적 경로를 계산합니다.
+   Description: 지정된 학원의 학생들을 픽업하는 최적 경로를 계산합니다. 계산된 경로는 자동으로 지도에 표시되며 다음과 같이 시각화됩니다:
+   - 출발지: 마커로 표시 (팝업: "출발지")
+   - 도착지(학원): 마커로 표시 (팝업: "도착지")
+   - 경유지(학생 픽업 위치): 각 위치가 마커로 표시되며 팝업으로 학생 이름 표시
+   - 이동 경로: 빨간색 선으로 표시
 
 6. update_student_list
    Required parameters:
