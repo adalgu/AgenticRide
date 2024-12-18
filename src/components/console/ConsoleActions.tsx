@@ -18,14 +18,14 @@ export function ConsoleActions() {
     <div className="content-actions">
       <Toggle
         defaultValue={false}
-        labels={['manual', 'auto']}
+        labels={['타자모드on', '음성모드on']}
         values={['none', 'server_vad']}
         onChange={handleTurnEndTypeChange}
       />
       <div className="spacer" />
       {isConnected && canPushToTalk && (
         <Button
-          label={isRecording ? 'release to send' : 'push'}
+          label={isRecording ? 'release to send' : 'AI호출'}
           buttonStyle={isRecording ? 'alert' : 'regular'}
           disabled={!isConnected || !canPushToTalk}
           onMouseDown={startRecording}
@@ -34,7 +34,7 @@ export function ConsoleActions() {
       )}
       <div className="spacer" />
       <Button
-        label={isConnected ? 'disconnect' : 'connect'}
+        label={isConnected ? '운행종료' : '운행시작'}
         iconPosition={isConnected ? 'end' : 'start'}
         icon={isConnected ? X : Zap}
         buttonStyle={isConnected ? 'regular' : 'action'}

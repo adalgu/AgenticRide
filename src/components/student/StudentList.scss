@@ -1,0 +1,73 @@
+.student-list {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  margin: 16px;
+  max-height: 300px;
+  overflow-y: auto;
+
+  h2 {
+    margin: 0 0 16px 0;
+    font-size: 18px;
+    color: #333;
+  }
+
+  .student-list-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .student-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background: #f0f1f2;
+    }
+  }
+
+  .student-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .student-name {
+    font-weight: 600;
+    color: #333;
+  }
+
+  .student-location {
+    font-size: 14px;
+    color: #666;
+  }
+
+  .student-status {
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .status-waiting {
+    background: #e9ecef;
+    color: #495057;
+  }
+
+  .status-boarded {
+    background: #d4edda;
+    color: #155724;
+  }
+
+  .status-absent {
+    background: #f8d7da;
+    color: #721c24;
+  }
+}

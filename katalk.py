@@ -1,6 +1,8 @@
 # python3 ./watchtower_test.py --messages '개별로 카톡 보내기 테스트' --receiver 'iron.man1011
 # ,gunn.kim' 
 
+# python3 ./katalk.py --messages '개별로 카톡 보내기 테스트' --receiver 'gunn.kim' 
+
 import argparse
 import requests
 
@@ -17,7 +19,7 @@ def main(args):
         for msg in res:
             # 각 요청에 메시지, 수신자, API ID 추가
             results.append(requests.get(url_root, params={'to': user, 'msg': msg.strip('\n')}))
-
+    print(results)
     return results
 
 

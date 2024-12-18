@@ -9,7 +9,7 @@ import { Events } from '../components/console/Events';
 import { Conversation } from '../components/console/Conversation';
 import { ConsoleActions } from '../components/console/ConsoleActions';
 import { MainView } from '../components/main/MainView';
-import { MusicLibrary } from '../components/music/MusicLibrary';
+import { StudentList } from '../components/student/StudentList';
 import { useConsole } from '../contexts/ConsoleContext';
 import { LOCAL_RELAY_SERVER_URL } from '../constants/config';
 
@@ -68,7 +68,7 @@ function ConsoleContent() {
     <div className="content-main">
       <div className="content-right">
         <MainView />
-        <MusicLibrary memoryKv={memoryKv} />
+        <StudentList memoryKv={memoryKv} />
       </div>
       <div className="content-logs" ref={eventsScrollRef}>
         <Conversation />

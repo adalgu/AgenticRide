@@ -36,40 +36,58 @@ export const sendKakaoTalkTool: ToolDefinition = {
     try {
       console.log(`Attempting to send KakaoTalk message to ${receiver}: ${message}`);
 
-      // Simulate API call with more detailed error handling
+      // Modify axios configuration to be more lenient
       const response = await axios.get('http://api.noti.daumkakao.io/send/personal/kakaotalk', {
         params: {
           to: receiver,
           msg: message
         },
-        // Add timeout and more detailed error handling
         timeout: 10000,
-        validateStatus: function (status) {
-          return status >= 200 && status < 300; // Default
-        }
+        // Use a function that always returns true to allow all status codes
+        validateStatus: () => true
       });
 
       console.log('KakaoTalk API Response:', response.data);
 
-      // Check for specific response conditions
-      if (response.status !== 200) {
+      // If status is 200, consider it a success
+      if (response.status === 200) {
         return {
-          status: 'error',
-          message: `Failed to send message to ${receiver}`,
-          details: `HTTP Status: ${response.status}, Response: ${JSON.stringify(response.data)}`
+          status: 'success',
+          message: `Message sent to ${receiver}`,
+          details: response.data
         };
       }
 
+      // For non-200 status codes, return as an error
       return {
-        status: 'success',
-        message: `Message sent to ${receiver}`,
-        details: response.data
+        status: 'error',
+        message: `Failed to send message to ${receiver}`,
+        details: {
+          status: response.status,
+          data: response.data
+        }
       };
+
     } catch (error: any) {
       console.error('KakaoTalk Message Send Error:', error);
 
-      // More detailed error logging
+      // More nuanced error handling
       if (isAxiosError(error)) {
+        // Network errors or timeout
+        if (error.code === 'ERR_NETWORK' || error.code === 'ECONNABORTED') {
+          console.warn('Potential network issue, but message might have been sent');
+          return {
+            status: 'warning',
+            message: `Possible message send to ${receiver}`,
+            details: {
+              errorType: 'NetworkWarning',
+              code: error.code,
+              message: error.message
+            }
+          };
+        }
+
+        // Other axios-specific errors
         return {
           status: 'error',
           message: `Failed to send message to ${receiver}`,
@@ -83,6 +101,7 @@ export const sendKakaoTalkTool: ToolDefinition = {
         };
       }
       
+      // Catch-all for other unexpected errors
       return {
         status: 'error',
         message: `Failed to send message to ${receiver}`,

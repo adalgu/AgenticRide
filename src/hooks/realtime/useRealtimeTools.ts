@@ -9,6 +9,9 @@ import { musicCallbackTool } from '../../tools/musicCallback';
 import { fetchSongsTool } from '../../tools/songs';
 import { setMusicCanvasTool } from '../../tools/musicCanvas';
 import { sendKakaoTalkTool } from '../../tools/katalk';
+import { getCoordinatesTool } from '../../tools/address';
+import { getMultiStopRouteTool } from '../../tools/route';
+import { updateStudentListTool, getStudentsListTool } from '../../tools/students';
 import { ToolDefinition } from '../../types/tools';
 
 export const useRealtimeTools = ({
@@ -52,6 +55,17 @@ export const useRealtimeTools = ({
 
     // KakaoTalk messaging tool
     registerTool(sendKakaoTalkTool);
+
+    // Address to coordinates tool
+    registerTool(getCoordinatesTool);
+
+    // Student list tools
+    registerTool(updateStudentListTool(setMemoryKv));
+    registerTool(getStudentsListTool());
+
+    // Multi-stop route tool
+    const multiStopRouteTool = getMultiStopRouteTool(setMemoryKv);
+    registerTool(multiStopRouteTool);
   }, [client, setMemoryKv, setCanvasKv, setMarker, setCoords, registerTool]);
 
   return {
