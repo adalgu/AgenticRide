@@ -24,13 +24,13 @@ export function StudentList({ memoryKv }: StudentListProps) {
   const { client } = useConsole();
 
   useEffect(() => {
-    // Function to fetch students using get_students tool
+    // Function to fetch students using get_students_list tool
     const fetchStudents = async () => {
       try {
         client.sendUserMessageContent([
           {
             type: 'input_text',
-            text: '카모아카데미 학생 명단을 가져와줘',
+            text: '카모아카데미 학생 명단을 get_students_list로 가져와줘',
           },
         ]);
       } catch (error) {
