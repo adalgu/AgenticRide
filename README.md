@@ -39,39 +39,73 @@ AgenticRide is an AI-powered shuttle bus management system developed by Team AZ2
 
 ## 🛠️ Technical Stack
 
-- **Frontend**: React with TypeScript
-- **State Management**: React Context
-- **Map Integration**: Kakao Maps API
-- **Communication**: KakaoTalk & Slack APIs
-- **Geolocation**: Coordinate transformation and route optimization
-- **Real-time Updates**: WebSocket-based real-time communication
+### Frontend
 
-## 🔧 Core Tools
+- React with TypeScript
+- Interactive map integration (Kakao Maps API)
+- Real-time state management
+- WebSocket-based communication
 
-1. **System Tools**
+### Backend
 
-   - Memory management
-   - Canvas visualization
-   - Weather monitoring
-   - Music canvas integration
+- Node.js relay server
+- Slack Socket Mode for real-time messaging
+- OpenAI GPT-4 integration
+- Environment-based configuration
 
-2. **Communication Tools**
+### Communication APIs
 
-   - KakaoTalk messaging
-   - Slack notifications
-   - Parent communication management
+- KakaoTalk Messaging API
+- Slack Web API & Socket Mode
+- OpenAI Chat Completions API
 
-3. **Location Services**
+## 🔧 Core Components
 
-   - Address to coordinates conversion
-   - Multi-stop route optimization
-   - Real-time location tracking
+### 1. Main Application
 
-4. **Student Management**
-   - Student list management
-   - Status updates
-   - Attendance tracking
-   - Parent notification system
+- **System Tools**
+
+  - Memory management
+  - Canvas visualization
+  - Weather monitoring
+  - Music canvas integration
+
+- **Communication Tools**
+
+  - KakaoTalk messaging
+  - Slack notifications
+  - Parent communication management
+
+- **Location Services**
+
+  - Address to coordinates conversion
+  - Multi-stop route optimization
+  - Real-time location tracking
+
+- **Student Management**
+  - Student list management
+  - Status updates
+  - Attendance tracking
+  - Parent notification system
+
+### 2. Relay Server
+
+The relay server enables bidirectional communication between the system and Slack, powered by GPT-4:
+
+- **Features**
+
+  - Real-time Slack message processing
+  - Conversation history management
+  - Automatic reconnection handling
+  - Environment-based configuration
+  - Custom AI instructions for shuttle service
+
+- **Technical Details**
+  - Socket Mode for real-time Slack events
+  - GPT-4 powered responses
+  - Conversation context maintenance
+  - Error handling and logging
+  - Secure token management
 
 ## 🌟 Key Workflows
 
@@ -89,6 +123,7 @@ AgenticRide is an AI-powered shuttle bus management system developed by Team AZ2
 2. System status broadcasts through Slack
 3. Automated weather and traffic alerts
 4. Delay notifications and status updates
+5. AI-powered responses to inquiries
 
 ### Route Management
 
@@ -105,6 +140,7 @@ AgenticRide is an AI-powered shuttle bus management system developed by Team AZ2
 - Weather-based notifications
 - Traffic-aware route suggestions
 - Real-time decision support
+- Context-aware Slack responses
 
 ## 📝 License
 
