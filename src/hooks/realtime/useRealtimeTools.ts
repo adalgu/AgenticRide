@@ -9,9 +9,14 @@ import { musicCallbackTool } from '../../tools/musicCallback';
 import { fetchSongsTool } from '../../tools/songs';
 import { setMusicCanvasTool } from '../../tools/musicCanvas';
 import { sendKakaoTalkTool } from '../../tools/katalk';
+import { sendSlackTool } from '../../tools/slack';
 import { getCoordinatesTool } from '../../tools/address';
 import { getMultiStopRouteTool } from '../../tools/route';
-import { updateStudentListTool, getStudentsListTool } from '../../tools/students';
+import {
+  updateStudentListTool,
+  getStudentsListTool,
+  displayStudentsListTool,
+} from '../../tools/students';
 import { ToolDefinition } from '../../types/tools';
 
 export const useRealtimeTools = ({
@@ -53,15 +58,17 @@ export const useRealtimeTools = ({
     registerTool(musicGenerationTool);
     registerTool(musicCallbackTool);
 
-    // KakaoTalk messaging tool
+    // Messaging tools
     registerTool(sendKakaoTalkTool);
+    registerTool(sendSlackTool);
 
     // Address to coordinates tool
     registerTool(getCoordinatesTool);
 
     // Student list tools
-    registerTool(updateStudentListTool(setMemoryKv));
     registerTool(getStudentsListTool());
+    registerTool(displayStudentsListTool(setMemoryKv));
+    registerTool(updateStudentListTool(setMemoryKv));
 
     // Multi-stop route tool
     const multiStopRouteTool = getMultiStopRouteTool(setMemoryKv);

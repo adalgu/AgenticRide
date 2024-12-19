@@ -14,7 +14,7 @@ export const Header: React.FC<HeaderProps> = ({ apiKey, onResetApiKey }) => {
     <div className="header">
       <div className="header-title">
         <Book size={28} className="header-icon" />
-        <span className="app-name">Agentic Ride by AZ2</span>
+        <span className="app-name"> AI 셔틀 어시스턴트 by AZ2</span>
       </div>
       {/* API Key display - temporarily hidden
       <div className="header-api-key">

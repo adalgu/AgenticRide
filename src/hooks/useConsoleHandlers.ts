@@ -47,7 +47,7 @@ export function useConsoleHandlers() {
     client.sendUserMessageContent([
       {
         type: `input_text`,
-        text: `자 오늘도 안전하게 아이들을 태워보자.`,
+        text: `안녕? 오늘도 안전하게 아이들을 태워보자. 판교영재학원 아이들 명단을 보여줘.`,
       },
     ]);
 
