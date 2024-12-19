@@ -1,4 +1,4 @@
-# AgenticRide
+# AI Shuttle Assistant: Safe Ride for Kids
 
 AgenticRide is an AI-powered shuttle bus management system developed by Team AZ2. The system assists shuttle bus drivers with real-time student management, route optimization, and parent communication.
 
